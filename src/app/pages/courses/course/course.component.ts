@@ -2,22 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-
-interface CourseObject {
-  type: string;
-  duration: number;
-  description: string;
-  date: string;
-  id: number;
-}
-
-interface EditCourse {
-  (id: number) : void;
-}
-
-interface DeleteCourse {
-  (id: number) : boolean;
-}
+import { CourseObject, EditCourse, DeleteCourse } from '../../../models/course.model';
 
 @Component ({
   templateUrl: './course.component.html'

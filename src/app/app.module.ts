@@ -24,7 +24,7 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { CourseComponent } from './pages/courses/course';
+import { CourseComponent } from './pages/courses/course/course.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
