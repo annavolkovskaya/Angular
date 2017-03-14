@@ -1,0 +1,5 @@
+<course-component 
+	*ngFor="let course of courses"
+		[courseData] = "course"
+		(deleteCourse)="handleDeleteCourse($event)">
+</course-component>

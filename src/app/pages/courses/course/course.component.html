@@ -1,1 +1,16 @@
-<div>Couse component</div>
+<div class="course">
+	<div class="course__details">
+		<div class="course__details--container">
+			<div class="course__details__meta">
+				<div>{{courseData.title}}</div>
+				<div>{{courseData.duration}}</div>
+			</div>
+			<div>{{courseData.creationDate}}</div>
+		</div>
+		<div>{{courseData.description}}</div>
+	</div>
+	<div class="course__actions">
+		<button-component [buttonClick]="editCourse" [buttonText]="editCourseText"></button-component>
+		<button-component [buttonClick]="deleteCourseCallback" [buttonText]="deleteCourseText" [text]="courseData.id"></button-component>
+	</div>
+</div>

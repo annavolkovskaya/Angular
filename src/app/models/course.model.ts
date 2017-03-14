@@ -1,8 +1,8 @@
 export interface CourseObject {
-  type: string;
+  title: string;
   duration: number;
   description: string;
-  date: string;
+  creationDate: string;
   id: number;
 }
 

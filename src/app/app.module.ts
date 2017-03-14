@@ -10,21 +10,22 @@ import {
   createNewHosts,
   createInputTransfer
 } from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
 
 /*
  * Platform and Environment providers/directives/pipes
  */
 import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { CourseComponent } from './pages/courses/course/course.component';
+import { CoursesComponent } from './pages/courses/courses.component';
+import { LogoComponent } from './core/components/logo/logo.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { SearchComponent } from './core/components/search/search.component';
+import { ButtonComponent } from './core/components/button/button.component';
+import { FooterComponent } from './core/components/footer/footer.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -47,13 +48,18 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    CourseComponent
+    CourseComponent,
+    CoursesComponent,
+    LoginComponent,
+    LogoComponent,
+    SearchComponent,
+    ButtonComponent,
+    FooterComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
-    HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    HttpModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -66,7 +72,6 @@ export class AppModule {
     public appRef: ApplicationRef,
     public appState: AppState
   ) {}
-
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
       return;

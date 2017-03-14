@@ -1,0 +1,24 @@
+.course {
+	border: 1px solid black;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+	padding: 10px;
+}
+
+.course__actions {
+	width: 100px;
+}
+
+.course__details__meta {
+	display: flex;
+}
+
+.course__details__meta div {
+	margin-right: 10px;
+}
+
+.course__details--container {
+	display: flex;
+	justify-content: space-between;
+}

@@ -1,0 +1,12 @@
+.logo__image {
+	background-image: url('https://lh4.ggpht.com/Jb4QYgFBbFH7hfyOIzdRFF90Uyyx20W2-TB5lJEkdC9gyc0MQNTuC8n_HEGpCfaUgfw=w300');
+	background-size: 50px;
+	display: block;
+	height: 50px;
+	margin-right: 15px;
+	width: 50px;
+}
+
+.logo {
+	display: flex;
+}
