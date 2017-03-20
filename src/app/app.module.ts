@@ -22,10 +22,11 @@ import { AppState, InternalStateType } from './app.service';
 import { CourseComponent } from './pages/courses/course/course.component';
 import { CoursesComponent } from './pages/courses/courses.component';
 import { LogoComponent } from './core/components/logo/logo.component';
-import { LoginComponent } from './core/components/login/login.component';
+import { HeaderComponent } from './core/components/header/header.component';
 import { SearchComponent } from './core/components/search/search.component';
 import { ButtonComponent } from './core/components/button/button.component';
 import { FooterComponent } from './core/components/footer/footer.component';
+import { LoginComponent } from './pages/login/login.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -50,11 +51,12 @@ type StoreType = {
     AppComponent,
     CourseComponent,
     CoursesComponent,
-    LoginComponent,
+    HeaderComponent,
     LogoComponent,
     SearchComponent,
     ButtonComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

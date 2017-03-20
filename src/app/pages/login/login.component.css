@@ -1,0 +1,13 @@
+.login {
+	padding: 40px;
+}
+
+.login__username,
+.login__password {
+	display: flex;
+	margin-bottom: 15px;
+}
+
+label {
+	width: 85px;
+}

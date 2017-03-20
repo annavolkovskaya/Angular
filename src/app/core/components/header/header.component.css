@@ -1,9 +1,9 @@
-.login {
+.header {
 	display: flex;
 	justify-content: space-between;
 }
 
-.login__container {
+.header__container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

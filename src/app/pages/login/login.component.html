@@ -1,0 +1,11 @@
+<div class="login">
+	<div class="login__username">
+		<label htmlFor="username">Login</label>
+		<input id="username" type="text" name="login" [(ngModel)]="username">
+	</div>
+	<div class="login__password">
+		<label htmlFor="password">Password</label>
+		<input id="password" type="password" name="password" [(ngModel)]="password">
+	</div>
+	<button-component [buttonClick]="login" [buttonText]="enterText"></button-component>
+</div>

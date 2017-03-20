@@ -7,6 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { AppState } from './app.service';
+import { AuthService } from './services/auth.service';
 
 /*
  * App Component
@@ -15,14 +16,16 @@ import { AppState } from './app.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
+  providers: [AuthService],
   styleUrls: [
     './app.component.css'
   ],
   template: `
     <main>
-      <login-component></login-component>
-      <search-component></search-component>
-      <courses-component></courses-component>
+      <header-component></header-component>
+      <login-page *ngIf="!this.authService.isAuthenticated()"></login-page>
+      <search-component *ngIf="this.authService.isAuthenticated()"></search-component>
+      <courses-component *ngIf="this.authService.isAuthenticated()"></courses-component>
       <footer-component></footer-component>
     </main>
   `
@@ -32,7 +35,8 @@ export class AppComponent implements OnInit {
   public url = 'https://twitter.com/AngularClass';
 
   constructor(
-    public appState: AppState
+    public appState: AppState,
+    public authService: AuthService
   ) {}
 
   public ngOnInit() {
