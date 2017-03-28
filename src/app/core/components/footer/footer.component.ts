@@ -1,6 +1,7 @@
 import {
   Component,
-  Input
+  Input,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component ({
@@ -18,7 +19,8 @@ import {
 			right: 50px;
 			text-align: center;
 		}
-	`]
+	`],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class FooterComponent {

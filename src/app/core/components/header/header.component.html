@@ -1,7 +1,9 @@
 <div class="header">
 	<logo-container></logo-container>
-	<div class="header__container" *ngIf="this.authService.isAuthenticated()">
-		<p>User login</p>
+	<div class="header__container" *ngIf="isLoggedIn()">
+		<p>{{currentUser}} login</p>
 		<button-component [buttonClick]="logOff" [buttonText]="logOffText"></button-component>
 	</div>
 </div>
+<login-page *ngIf="!isLoggedIn()"></login-page>
+<spinner></spinner>

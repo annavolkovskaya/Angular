@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 interface UserInfo {
   username: String;
@@ -7,35 +8,44 @@ interface UserInfo {
 
 @Injectable()
 export class AuthService {
-  public user: UserInfo;
+  public loggedIn = new BehaviorSubject(null);
+  private userInfo: UserInfo;
   private defaultUser: UserInfo = {
     username: '',
     password: ''
   };
 
   constructor() {
-    this.user = this.defaultUser;
+    let userToken = localStorage.getItem('token');
+    let userCreds = userToken ? userToken.split('_') : false;
+    this.userInfo = userToken ? {
+      username: userCreds[0],
+      password: userCreds[1]
+    } : this.defaultUser;
   }
-
-  public login (username: String, password: String): Boolean {
-    this.user.username = username;
-    this.user.password = password;
-    const token = `${username}${password}`;
-    localStorage.setItem('token', token);
-    return true;
+  public login (username: String, password: String): Observable<string> {
+    return new Observable((observer) => {
+      observer.next(`${username}_${password}`);
+      observer.complete();
+    });
   };
 
-  public logout(): Boolean {
-    this.user = this.defaultUser;
-    localStorage.removeItem('token');
-    return true;
+  public logout(): void {
+    this.loggedIn.subscribe((value) => {
+      this.userInfo = this.defaultUser;
+      localStorage.removeItem('token');
+    });
   };
 
-  public isAuthenticated(): Boolean {
-    return !!localStorage.getItem('token');
+  public isAuthenticated(): void {
+    Observable.from([this.userInfo.username]).
+      subscribe((value) => this.loggedIn.next(value));
   };
 
-  public getUserInfo(): UserInfo {
-    return this.user;
+  public getUserInfo(): Observable<String> {
+    return new Observable((observer) => {
+      observer.next(this.userInfo.username);
+      observer.complete();
+    });
   };
 }

@@ -4,10 +4,13 @@
 import {
   Component,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
+  NgZone,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { AppState } from './app.service';
 import { AuthService } from './services/auth.service';
+import { SpinnerService } from './services/spinner.service';
 
 /*
  * App Component
@@ -16,16 +19,15 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  providers: [AuthService],
+  providers: [AuthService, SpinnerService],
   styleUrls: [
     './app.component.css'
   ],
   template: `
     <main>
       <header-component></header-component>
-      <login-page *ngIf="!this.authService.isAuthenticated()"></login-page>
-      <search-component *ngIf="this.authService.isAuthenticated()"></search-component>
-      <courses-component *ngIf="this.authService.isAuthenticated()"></courses-component>
+      <search-component></search-component>
+      <courses-component></courses-component>
       <footer-component></footer-component>
     </main>
   `
@@ -33,11 +35,25 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit {
   public name = 'Angular 2 Webpack Starter';
   public url = 'https://twitter.com/AngularClass';
+  public unstableTime: any;
 
   constructor(
     public appState: AppState,
-    public authService: AuthService
-  ) {}
+    public ngZone: NgZone
+  ) {
+    this.ngZone.onStable.subscribe(this.onZoneStable.bind(this));
+    this.ngZone.onUnstable.subscribe(this.onZoneUnstable.bind(this));
+  }
+
+  public onZoneStable() {
+    console.log('We are stable');
+    console.log(new Date().getTime() - this.unstableTime);
+  }
+
+  public onZoneUnstable() {
+    console.log('We are unstable');
+    this.unstableTime = new Date().getTime();
+  }
 
   public ngOnInit() {
     console.log('Initial App State', this.appState.state);

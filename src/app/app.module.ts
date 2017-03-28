@@ -27,6 +27,7 @@ import { SearchComponent } from './core/components/search/search.component';
 import { ButtonComponent } from './core/components/button/button.component';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { LoginComponent } from './pages/login/login.component';
+import { SpinnerComponent } from './core/components/spinner/spinner.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -56,7 +57,8 @@ type StoreType = {
     SearchComponent,
     ButtonComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    SpinnerComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

@@ -2,13 +2,15 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component ({
   selector: 'search-component',
   styleUrls: ['./search.component.css'],
-  templateUrl: './search.component.html'
+  templateUrl: './search.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SearchComponent {

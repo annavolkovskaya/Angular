@@ -1,6 +1,7 @@
 import {
   Component,
-  Input
+  Input,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component ({
@@ -13,7 +14,8 @@ import {
 			cursor: pointer;
 			display: block;
 		}
-	`]
+	`],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ButtonComponent {
