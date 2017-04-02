@@ -4,6 +4,7 @@ export interface CourseObject {
   description: string;
   creationDate: string;
   id: number;
+  topRated: Boolean;
 }
 
 export interface EditCourse {

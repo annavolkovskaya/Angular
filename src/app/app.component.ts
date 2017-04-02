@@ -26,7 +26,6 @@ import { SpinnerService } from './services/spinner.service';
   template: `
     <main>
       <header-component></header-component>
-      <search-component></search-component>
       <courses-component></courses-component>
       <footer-component></footer-component>
     </main>

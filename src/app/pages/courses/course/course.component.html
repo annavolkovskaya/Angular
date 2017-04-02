@@ -1,11 +1,17 @@
-<div class="course">
+<div [ngClass]="{
+	'course': true,
+	'green-border': isFreshCourse,
+	'blue-border': isUcomingCourse, 
+	'top-rated': isFavourite
+}">
 	<div class="course__details">
 		<div class="course__details--container">
 			<div class="course__details__meta">
-				<div>{{courseData.title}}</div>
-				<div>{{courseData.duration}}</div>
+				<div>{{courseData.title | uppercase}}</div>
+				<div>{{courseData.duration | durationTransform}}</div>
+				<star-component [isShown]="courseData.topRated"></star-component>
 			</div>
-			<div>{{courseData.creationDate}}</div>
+			<div>{{courseData.creationDate | date}}</div>
 		</div>
 		<div>{{courseData.description}}</div>
 	</div>

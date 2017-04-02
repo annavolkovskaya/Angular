@@ -28,6 +28,10 @@ import { ButtonComponent } from './core/components/button/button.component';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SpinnerComponent } from './core/components/spinner/spinner.component';
+import { EmptyComponent } from './core/components/emptyBlock/emptyBlock.component';
+import { StarComponent } from './core/components/star/star.component';
+import { DurationPipe } from './pipes/duration.pipe';
+import { OrderByPipe } from './pipes/orderBy.pipe';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -58,7 +62,11 @@ type StoreType = {
     ButtonComponent,
     FooterComponent,
     LoginComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    EmptyComponent,
+    StarComponent,
+    DurationPipe,
+    OrderByPipe
   ],
   imports: [ // import Angular's modules
     BrowserModule,

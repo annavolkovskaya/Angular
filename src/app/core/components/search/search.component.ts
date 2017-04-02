@@ -17,8 +17,11 @@ export class SearchComponent {
   public findText = 'Find';
   public addCourseText = 'Add course';
   public searchQuery = '';
-  public findCallback = (value) => {
-    console.log(value);
+
+  @Output() public findCourse = new EventEmitter();
+
+  public findCourseCallback = (query) => {
+    this.findCourse.emit(query);
   }
 
   public addCourse = () => {

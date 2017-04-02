@@ -1,11 +1,14 @@
 import {
   Component,
   OnInit,
+  Output,
+  EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { CoursesService } from '../../services/courses.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { CourseObject } from '../../models/course.model';
+import { OrderByPipe } from '../../../pipes/orderBy.pipe';
 
 @Component ({
   selector: 'courses-component',
@@ -21,6 +24,10 @@ export class CoursesComponent implements OnInit {
     private coursesService: CoursesService,
     private spinnerService: SpinnerService
   ) {}
+
+  public handleFindCourse = (query) => {
+    this.courses = this.coursesService.getFilteredCourses(query);
+  }
 
   public handleDeleteCourse(id) {
     this.spinnerService.show();

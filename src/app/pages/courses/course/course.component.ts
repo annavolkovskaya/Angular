@@ -3,7 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnInit
 } from '@angular/core';
 import { CourseObject, EditCourse, DeleteCourse } from '../../../models/course.model';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -15,7 +16,7 @@ import { SpinnerService } from '../../../services/spinner.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CourseComponent {
+export class CourseComponent implements OnInit {
   public editCourseText = 'Edit course';
   public deleteCourseText = 'Delete';
 
@@ -24,6 +25,9 @@ export class CourseComponent {
 
   @Input()
   public courseData: CourseObject;
+  public isFreshCourse = false;
+  public isUcomingCourse = false;
+  public isFavourite = false;
 
   constructor(private spinnerService: SpinnerService) {}
   public deleteCourseCallback = (id) => {
@@ -33,5 +37,21 @@ export class CourseComponent {
 
   public editCourse = () => {
     return true;
+  }
+
+  public ngOnInit(): void {
+    this.getCourseStyles(this.courseData);
+  }
+
+  public getCourseStyles(courseData) {
+    const currentDate: Date = new Date();
+    const currentDateInSeconds = Date.parse(currentDate.toString());
+    const creationDateInSeconds = Date.parse(courseData.creationDate.toString());
+    const millisecondInDay = 86400 * 1000;
+    const daysDifference = millisecondInDay * 14;
+    this.isFreshCourse = creationDateInSeconds < currentDateInSeconds &&
+                         creationDateInSeconds >= (currentDateInSeconds - daysDifference);
+    this.isUcomingCourse = creationDateInSeconds > currentDateInSeconds;
+    this.isFavourite = courseData.topRated;
   }
 }

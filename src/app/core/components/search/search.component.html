@@ -1,7 +1,7 @@
 <div class="search">
 	<div class="search__input">
 		<input type="text" name="search" [(ngModel)]="searchQuery">
-		<button-component [text]="searchQuery" [buttonClick]="findCallback" [buttonText]="findText"></button-component>
+		<button-component [text]="searchQuery" [buttonClick]="findCourseCallback" [buttonText]="findText"></button-component>
 	</div>
 	<button-component [buttonClick]="addCourse" [buttonText]="addCourseText"></button-component>
 </div>

@@ -1,5 +1,9 @@
+<search-component
+(findCourse)="handleFindCourse($event)">
+</search-component>
 <course-component 
-	*ngFor="let course of courses"
+	*ngFor="let course of courses | orderBy : 'creationDate'"
 		[courseData] = "course"
 		(deleteCourse)="handleDeleteCourse($event)">
 </course-component>
+<empty-component [data]="courses"></empty-component>

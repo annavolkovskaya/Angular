@@ -1,9 +1,21 @@
 .course {
-	border: 1px solid black;
+	border: 2px solid black;
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 15px;
 	padding: 10px;
+}
+
+.course.green-border {
+	border-color: green;
+}
+
+.course.top-rated {
+	background-color: #F79F81;
+}
+
+.course.blue-border {
+	border-color: blue;
 }
 
 .course__actions {
@@ -11,11 +23,17 @@
 }
 
 .course__details__meta {
+	align-items: center;
 	display: flex;
 }
 
 .course__details__meta div {
 	margin-right: 10px;
+}
+
+.course__details {
+	flex-grow: 1;
+	padding-right: 20px;
 }
 
 .course__details--container {
