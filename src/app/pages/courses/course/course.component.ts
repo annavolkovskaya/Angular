@@ -25,8 +25,6 @@ export class CourseComponent implements OnInit {
 
   @Input()
   public courseData: CourseObject;
-  public isFreshCourse = false;
-  public isUcomingCourse = false;
   public isFavourite = false;
 
   constructor(private spinnerService: SpinnerService) {}
@@ -44,14 +42,6 @@ export class CourseComponent implements OnInit {
   }
 
   public getCourseStyles(courseData) {
-    const currentDate: Date = new Date();
-    const currentDateInSeconds = Date.parse(currentDate.toString());
-    const creationDateInSeconds = Date.parse(courseData.creationDate.toString());
-    const millisecondInDay = 86400 * 1000;
-    const daysDifference = millisecondInDay * 14;
-    this.isFreshCourse = creationDateInSeconds < currentDateInSeconds &&
-                         creationDateInSeconds >= (currentDateInSeconds - daysDifference);
-    this.isUcomingCourse = creationDateInSeconds > currentDateInSeconds;
     this.isFavourite = courseData.topRated;
   }
 }

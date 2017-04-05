@@ -32,6 +32,7 @@ import { EmptyComponent } from './core/components/emptyBlock/emptyBlock.componen
 import { StarComponent } from './core/components/star/star.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
+import { BorderDirective } from './directives/border.directive';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -54,6 +55,7 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
+    BorderDirective,
     CourseComponent,
     CoursesComponent,
     HeaderComponent,

@@ -1,9 +1,7 @@
 <div [ngClass]="{
 	'course': true,
-	'green-border': isFreshCourse,
-	'blue-border': isUcomingCourse, 
 	'top-rated': isFavourite
-}">
+}" myBorder [courseData]="courseData">
 	<div class="course__details">
 		<div class="course__details--container">
 			<div class="course__details__meta">
