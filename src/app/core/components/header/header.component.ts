@@ -21,8 +21,7 @@ export class HeaderComponent {
       this.authService.isAuthenticated();
     }
     this.authService.loggedIn
-      .subscribe((value) => this.currentUser = value)
-      .unsubscribe();
+      .subscribe((value) => this.currentUser = value);
 
   }
 
