@@ -1,0 +1,28 @@
+label {
+	display: block;
+	width: 100px;
+	position: absolute;
+	text-align: right;
+	left: -115px;
+}
+
+div {
+	margin: 20px 0;
+	position: relative;
+}
+
+input {
+	height: 25px;
+}
+
+.buttons {
+	justify-content: space-around;
+	display: flex;
+	padding-right: 50px;
+}
+
+form {
+	padding: 15px 350px;
+	border: 2px solid black;
+	margin-top: 15px;
+}

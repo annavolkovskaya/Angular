@@ -1,0 +1,25 @@
+<form>
+	<div>
+		<label for="title">Title</label>
+		<input id="title" type="text" name="title">
+	</div>
+	<div>
+		<label for="description">Description</label>
+		<textarea id="description" cols="30"></textarea>
+	</div>
+	<div>
+		<label for="date">Date</label>
+		<input id="date" type="text" name="date">
+	</div>
+	<div>
+		<label for="duration">Duration</label>
+		<input id="duration" type="text" name="duration"
+			[ngModel]="duration"
+      (ngModelChange)="handleDurationInputChange($event)">
+     <span>{{duration | durationTransform}}</span>
+	</div>
+	<div class="buttons">
+		<button-component [buttonClick]="saveChanges" [buttonText]="saveBtnText"></button-component>
+		<button-component [buttonClick]="cancelChanges" [buttonText]="cancelBtnText"></button-component>
+	</div>
+</form>

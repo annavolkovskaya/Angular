@@ -34,7 +34,8 @@ export class AuthService {
     this.loggedIn.subscribe((value) => {
       this.userInfo = this.defaultUser;
       localStorage.removeItem('token');
-    });
+    })
+    .unsubscribe();
   };
 
   public isAuthenticated(): void {

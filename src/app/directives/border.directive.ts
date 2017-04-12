@@ -11,7 +11,7 @@ export class BorderDirective implements OnInit {
   public ngOnInit() {
     const currentDate: Date = new Date();
     const currentDateInSeconds = Date.parse(currentDate.toString());
-    const creationDateInSeconds = Date.parse(this.courseData.creationDate.toString());
+    const creationDateInSeconds = Date.parse(this.courseData.date.toString());
     const millisecondInDay = 86400 * 1000;
     const daysDifference = millisecondInDay * 14;
     let borderColor;
@@ -20,7 +20,7 @@ export class BorderDirective implements OnInit {
       borderColor = 'green';
     } else if (creationDateInSeconds > currentDateInSeconds) {
       borderColor = 'blue';
-    } else { borderColor = 'black'; };
+    } else { borderColor = 'black'; }
     this.renderer.setElementStyle(this.elem.nativeElement, 'border-color', borderColor);
   }
 }

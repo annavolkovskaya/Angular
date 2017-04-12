@@ -33,6 +33,7 @@ import { StarComponent } from './core/components/star/star.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
 import { BorderDirective } from './directives/border.directive';
+import { AddCourseComponent } from './pages/courses/addCourse/addCourse.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -68,7 +69,8 @@ type StoreType = {
     EmptyComponent,
     StarComponent,
     DurationPipe,
-    OrderByPipe
+    OrderByPipe,
+    AddCourseComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

@@ -19,6 +19,7 @@ import { OrderByPipe } from '../../../pipes/orderBy.pipe';
 
 export class CoursesComponent implements OnInit {
   public courses: CourseObject[];
+  public addCourseMode = false;
 
   constructor(
     private coursesService: CoursesService,
@@ -33,10 +34,23 @@ export class CoursesComponent implements OnInit {
     this.spinnerService.show();
     if (confirm('Are you sure you want to delete this course?')) {
       this.coursesService.removeItem(id);
+      this.getList();
     }
+  }
+  public handleAddCourse = () => {
+    this.addCourseMode = true;
+  }
+  public getList() {
+    this.coursesService.getList()
+      .subscribe({
+        next: (list) => {
+          this.courses = list;
+        }
+      })
+      .unsubscribe();
   }
 
   public ngOnInit(): void {
-    this.courses = this.coursesService.getList();
+    this.getList();
   }
 }

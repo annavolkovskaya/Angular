@@ -19,12 +19,9 @@ export class SearchComponent {
   public searchQuery = '';
 
   @Output() public findCourse = new EventEmitter();
+  @Input() public addCourse: Function;
 
   public findCourseCallback = (query) => {
     this.findCourse.emit(query);
-  }
-
-  public addCourse = () => {
-    return true;
   }
 }

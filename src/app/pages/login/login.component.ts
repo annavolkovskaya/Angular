@@ -1,7 +1,6 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectorRef
@@ -38,6 +37,7 @@ export class LoginComponent {
         },
         error: (err) => console.error('something wrong occurred: ' + err),
         complete: () => this.spinnerService.hide()
-      });
+      })
+      .unsubscribe();
    }
 }

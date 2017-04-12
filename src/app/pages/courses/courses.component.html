@@ -1,9 +1,15 @@
-<search-component
-(findCourse)="handleFindCourse($event)">
+<search-component *ngIf="!addCourseMode"
+(findCourse)="handleFindCourse($event)"
+[addCourse]="handleAddCourse">
 </search-component>
-<course-component 
-	*ngFor="let course of courses | orderBy : 'creationDate'"
-		[courseData] = "course"
-		(deleteCourse)="handleDeleteCourse($event)">
-</course-component>
-<empty-component [data]="courses"></empty-component>
+<div *ngIf="!addCourseMode">
+	<course-component
+		*ngFor="let course of courses | orderBy : 'date'"
+			[courseData] = "course"
+			(deleteCourse)="handleDeleteCourse($event)">
+	</course-component>
+</div>
+<add-course-component *ngIf="addCourseMode"></add-course-component>
+<div *ngIf="!addCourseMode">
+	<empty-component [data]="courses"></empty-component>
+</div>

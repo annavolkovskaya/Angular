@@ -20,7 +20,9 @@ export class HeaderComponent {
     if (this.authService.loggedIn.value === null) {
       this.authService.isAuthenticated();
     }
-    this.authService.loggedIn.subscribe((value) => this.currentUser = value);
+    this.authService.loggedIn
+      .subscribe((value) => this.currentUser = value)
+      .unsubscribe();
 
   }
 
