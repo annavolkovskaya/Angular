@@ -27,17 +27,21 @@ export class LoginComponent {
   ) {}
 
   public login = () => {
+    this.spinnerService.show();
     this.authService.login(this.username, this.password)
       .subscribe({
-        next: (token) => {
-          this.spinnerService.show();
-          localStorage.setItem('token', token);
-          this.authService.loggedIn.next(this.username);
+        next: (userData) => {
+          localStorage.setItem('userToken', userData);
           this.ref.markForCheck();
         },
-        error: (err) => console.error('something wrong occurred: ' + err),
-        complete: () => this.spinnerService.hide()
-      })
-      .unsubscribe();
+        error: (err) => {
+          alert('something wrong occurred: ' + err);
+          this.spinnerService.hide();
+        },
+        complete: () => {
+          this.spinnerService.hide();
+          this.authService.loggedIn.next(this.username);
+        }
+      });
    }
 }

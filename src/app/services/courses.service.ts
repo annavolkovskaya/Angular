@@ -1,86 +1,80 @@
 import { Injectable } from '@angular/core';
 import { CourseObject } from '../models/course.model';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
+import { Response, RequestOptions, RequestMethod, URLSearchParams, Request } from '@angular/http';
+import { AuthorizedHttp } from '../core/utils/authorizedHttp';
 
 let COURSES: CourseObject[];
-let fakeResponse: string = `{
-  "items": [
-    {
-      "title": "Video course1",
-      "duration": 45,
-      "description": "Lorem ipsum",
-      "id": 1,
-      "date": "2017-04-11T18:57:52.029Z",
-      "topRated": true,
-      "isSelected": true
-    },
-    {
-      "title": "Video course2",
-      "duration": 140,
-      "description": "Lorem ipsum",
-      "date": "2015-01-01T18:57:52.029Z",
-      "id": 2
-    },
-    {
-      "title": "Video course3",
-      "duration": 60,
-      "description": "Lorem ipsum",
-      "date": "2017-05-01T18:57:52.029Z",
-      "id": 3
-    }
-  ]
-}`;
+
+export interface GetListInteface {
+  courses: CourseObject[];
+  totalNumber: number;
+  currentPage: number;
+}
 
 @Injectable()
 export class CoursesService {
-  public getList(): Observable<CourseObject[]> {
-    const items = new Observable((observer) => {
-      const millisecondsInDay = 86400 * 1000;
-      const fakeCourses = JSON.parse(fakeResponse);
-      observer.next(
-        fakeCourses.items
-        .map((course) => {
-          if (!course.id) {
-            return null;
-          }
-          return {
-            title: course.title || 'No title',
-            description: course.description || 'No description',
-            date: course.date || new Date().toISOString(),
-            duration: course.duration || null,
-            id: course.id,
-            topRated: course.topRated || false
-          };
-        })
-        .filter((course) => {
-          return !!course &&
-                 new Date(course.date).getTime() >= (new Date().getTime() - 14 * millisecondsInDay);
-        })
-      );
-    });
-    items.subscribe((value: CourseObject[]) => COURSES = value);
-    return items;
+  public baseUrl: string;
+  constructor(private http: AuthorizedHttp) {
+    this.baseUrl = 'http://localhost:3004';
+  }
+  public getList(pageNumber: number, query?: string): Observable<GetListInteface> {
+    let requestOptions = new RequestOptions();
+    let params = new URLSearchParams();
+    let request: Request;
+    requestOptions.url = `${this.baseUrl}/courses`;
+    requestOptions.method = RequestMethod.Get;
+    params.set('count', '5');
+    params.set('page', `${pageNumber}`);
+    params.set('search', query);
+
+    requestOptions.search = params;
+    request = new Request(requestOptions);
+    const millisecondsInDay = 86400 * 1000;
+    return this.http.request(request)
+                    .map((res) => res.json())
+                    .map((json) => {
+                      return {
+                        courses: json.courses.map((course) => {
+                        if (!course.id) {
+                          return null;
+                        }
+                        return {
+                          title: course.title || 'No title',
+                          description: course.description || 'No description',
+                          date: course.date || new Date().toISOString(),
+                          duration: course.duration || null,
+                          id: course.id,
+                          topRated: course.topRated || false
+                        };
+                      })
+                      .filter((course) => {
+                      return !!course &&
+                             new Date(course.date).getTime() >=
+                             (new Date().getTime() - 14 * millisecondsInDay);
+                      }),
+                      totalNumber: json.totalNumber,
+                      currentPage: json.currentPage
+                    };
+                    })
+                    .catch(AuthService.handleError);
    };
-  public createCourse(course: CourseObject): void { COURSES.push(course); };
-  public getItemById(id: Number): Observable<CourseObject> {
-    return new Observable((obsever) => {
-      obsever.next(COURSES.find((course) => course.id === id));
-      obsever.complete();
-    });
+  public createCourse(course: CourseObject): void {
+    console.log('Create course');
   };
-  public getFilteredCourses(query: string): CourseObject[] {
-    return COURSES.filter((course) => course.title.includes(query));
+  public getItemById(id: Number): void {
+    console.log(id);
   };
   public updateItem(course: CourseObject): void {
-    this.getItemById(course.id).subscribe((updatedCourse) => {
-      let index = COURSES.findIndex((c) => c.id === course.id);
-      COURSES[index] = updatedCourse;
-    })
-    .unsubscribe();
+    console.log('Update');
   }
-  public removeItem(id: Number): void {
-    const index = COURSES.findIndex((course) => course.id === id);
-    COURSES.splice(index, 1);
-    fakeResponse = JSON.stringify({ items: COURSES });
+  public removeItem(id: Number): Observable<Boolean> {
+    let requestOptions = new RequestOptions();
+    let body = { id };
+    requestOptions.body = body;
+    return this.http.delete(`${this.baseUrl}/courses`, requestOptions)
+      .map((response) => response.json())
+      .catch(AuthService.handleError);
   };
 }

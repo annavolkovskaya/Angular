@@ -10,7 +10,7 @@ import { SpinnerService } from '../../../services/spinner.service';
   styleUrls: ['./spinner.component.css'],
   template: `<div class="load-container" *ngIf="isShown">
   <div class="loader">Loading...</div>
-  </div>`,
+  </div>`
 })
 
 export class SpinnerComponent {

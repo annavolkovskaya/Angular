@@ -6,19 +6,10 @@ export class SpinnerService {
   public spinnerIsShowed = new BehaviorSubject(false);
 
   public show(): void {
-    Observable.create((observer) => {
-      observer.next(true);
-    })
-    .subscribe((value) => {
-      this.spinnerIsShowed.next(value);
-      console.log('value is send' + value);
-    });
+    this.spinnerIsShowed.next(true);
   };
 
   public hide(): void {
-    Observable.create((observer) => {
-      setTimeout(() => observer.next(false), 1500);
-    })
-    .subscribe((value) => this.spinnerIsShowed.next(value));
+    this.spinnerIsShowed.next(false);
   }
 }

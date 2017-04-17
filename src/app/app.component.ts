@@ -25,6 +25,7 @@ import { SpinnerService } from './services/spinner.service';
   ],
   template: `
     <main>
+      <spinner></spinner>
       <header-component></header-component>
       <courses-component></courses-component>
       <footer-component></footer-component>

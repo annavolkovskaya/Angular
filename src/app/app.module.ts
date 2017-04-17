@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import {
   NgModule,
   ApplicationRef
@@ -22,6 +22,7 @@ import { AppState, InternalStateType } from './app.service';
 import { CourseComponent } from './pages/courses/course/course.component';
 import { CoursesComponent } from './pages/courses/courses.component';
 import { LogoComponent } from './core/components/logo/logo.component';
+import { PagingComponent } from './core/components/paging/paging.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { SearchComponent } from './core/components/search/search.component';
 import { ButtonComponent } from './core/components/button/button.component';
@@ -34,6 +35,7 @@ import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
 import { BorderDirective } from './directives/border.directive';
 import { AddCourseComponent } from './pages/courses/addCourse/addCourse.component';
+import { AuthorizedHttp } from './core/utils/authorizedHttp';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -59,6 +61,7 @@ type StoreType = {
     BorderDirective,
     CourseComponent,
     CoursesComponent,
+    PagingComponent,
     HeaderComponent,
     LogoComponent,
     SearchComponent,
@@ -78,8 +81,15 @@ type StoreType = {
     HttpModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
+    {
+      provide: AuthorizedHttp,
+      useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new AuthorizedHttp(backend, options);
+      },
+      deps: [XHRBackend, RequestOptions]
+    },
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
   ]
 })
 export class AppModule {

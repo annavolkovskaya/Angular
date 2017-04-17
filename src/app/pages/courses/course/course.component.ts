@@ -30,7 +30,6 @@ export class CourseComponent implements OnInit {
   constructor(private spinnerService: SpinnerService) {}
   public deleteCourseCallback = (id) => {
     this.deleteCourse.emit(id);
-    this.spinnerService.hide();
   }
 
   public editCourse = () => {

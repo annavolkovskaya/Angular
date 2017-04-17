@@ -17,20 +17,16 @@ export class HeaderComponent {
   constructor(
     public authService: AuthService
   ) {
-    if (this.authService.loggedIn.value === null) {
-      this.authService.isAuthenticated();
-    }
     this.authService.loggedIn
-      .subscribe((value) => this.currentUser = value);
-
+      .subscribe((value) => this.currentUser = value ? value : null);
   }
 
   public logOff = () => {
-    this.authService.loggedIn.next(false);
+    this.authService.logout();
   }
 
   public isLoggedIn(): boolean {
-    return this.authService.loggedIn.value;
+    return !!this.authService.loggedIn.value;
   }
 
 }

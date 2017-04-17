@@ -25,6 +25,6 @@ export class EmptyComponent {
   public data: Object[];
 
   public isDataArrayEmpty() {
-    return this.data.length === 0;
+    return !this.data || this.data.length === 0;
   }
 }
