@@ -81,16 +81,16 @@ export class PagingComponent implements OnInit {
         .subscribe(this.subscriptionObject);
   }
 
+  public ngOnInit() {
+    this.coursesService.getList(0)
+      .subscribe(this.subscriptionObject);
+  }
+
   private handleJson(list: GetListInteface) {
     this.currentCourses = list.courses;
     this.totalNumber = list.totalNumber;
     this.currentPage = list.currentPage;
     this.currentCoursesChange.emit(this.currentCourses);
     this.currentPageChange.emit(this.currentPage);
-  }
-
-  private ngOnInit() {
-    this.coursesService.getList(0)
-      .subscribe(this.subscriptionObject);
   }
 }
