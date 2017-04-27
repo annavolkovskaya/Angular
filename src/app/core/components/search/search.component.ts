@@ -7,6 +7,7 @@ import {
 import { SpinnerService } from '../../../services/spinner.service';
 import { CoursesService } from '../../../services/courses.service';
 import { CourseObject } from '../../../models/course.model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component ({
   selector: 'search-component',
@@ -28,7 +29,8 @@ export class SearchComponent {
 
   constructor(
     private coursesService: CoursesService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    public authService: AuthService
   ) { }
 
   public findCourseCallback = (query) => {

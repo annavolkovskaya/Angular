@@ -11,3 +11,7 @@
 label {
 	width: 85px;
 }
+
+button {
+	cursor: pointer;
+}

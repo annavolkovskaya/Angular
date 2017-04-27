@@ -1,7 +1,13 @@
 import {
   Component,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  Input
 } from '@angular/core';
+import { AuthorObject } from '../../../models/author.model';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { validateAuthors } from '../../../validators/authors.validator';
 
 @Component ({
   selector: 'add-course-component',
@@ -13,15 +19,14 @@ import {
 export class AddCourseComponent {
   public saveBtnText = 'Save';
   public cancelBtnText = 'Cancel';
-  public duration: string;
-  public saveChanges = () => {
-    console.log('Save changes');
-  }
-  public cancelChanges = () => {
-    console.log('Cancel changes');
+  @Output()
+  public cancelAddCourseMode = new EventEmitter();
+  @Input() public authors: AuthorObject[];
+  public saveChanges = (form) => {
+    console.log(form.value);
   }
 
-  public handleDurationInputChange = (value) => {
-    this.duration = value;
+  public onCancelButtonClick = () => {
+    this.cancelAddCourseMode.emit();
   }
 }

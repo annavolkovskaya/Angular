@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import {
   NgModule,
@@ -33,9 +33,14 @@ import { EmptyComponent } from './core/components/emptyBlock/emptyBlock.componen
 import { StarComponent } from './core/components/star/star.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
+import { DateValidator } from './directives/dateValidator.directive';
 import { BorderDirective } from './directives/border.directive';
 import { AddCourseComponent } from './pages/courses/addCourse/addCourse.component';
 import { AuthorizedHttp } from './core/utils/authorizedHttp';
+import { DateFieldComponent } from './core/components/dateField/dateField.component';
+import { DurationFieldComponent } from './core/components/durationField/durationField.component';
+import { DurationValidator } from './directives/durationValidator.directive';
+import { AuthorsComponent } from './core/components/authorsBlock/authorsBlock.component';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -73,12 +78,18 @@ type StoreType = {
     StarComponent,
     DurationPipe,
     OrderByPipe,
-    AddCourseComponent
+    AddCourseComponent,
+    DateFieldComponent,
+    DateValidator,
+    DurationFieldComponent,
+    DurationValidator,
+    AuthorsComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     {

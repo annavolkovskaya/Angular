@@ -1,11 +1,11 @@
-<div class="login">
+<form class="login" #loginForm="ngForm" (submit)="login()">
 	<div class="login__username">
-		<label htmlFor="username">Login</label>
-		<input id="username" type="text" name="login" [(ngModel)]="username">
+		<label for="username">Login</label>
+		<input id="username" type="text" name="username" required [(ngModel)]="username">
 	</div>
 	<div class="login__password">
-		<label htmlFor="password">Password</label>
-		<input id="password" type="password" name="password" [(ngModel)]="password">
+		<label for="password">Password</label>
+		<input id="password" type="password" name="password" required [(ngModel)]="password">
 	</div>
-	<button-component [buttonClick]="login" [buttonText]="enterText"></button-component>
-</div>
+	<button [disabled]="!(loginForm.valid && loginForm.dirty)" type="submit">{{enterText}}</button>
+</form>

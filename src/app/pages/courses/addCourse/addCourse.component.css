@@ -1,28 +1,46 @@
-label {
-	display: block;
-	width: 100px;
-	position: absolute;
-	text-align: right;
-	left: -115px;
-}
-
-div {
-	margin: 20px 0;
-	position: relative;
-}
-
-input {
-	height: 25px;
+form {
+	padding: 15px 310px;
+	border: 2px solid black;
+	margin-top: 15px;
 }
 
 .buttons {
-	justify-content: space-around;
-	display: flex;
-	padding-right: 50px;
+	margin-top: 10px;
 }
 
-form {
-	padding: 15px 350px;
-	border: 2px solid black;
-	margin-top: 15px;
+.buttons button {
+	cursor: pointer;
+}
+
+/deep/ div.add-course-form-field {
+	margin: 15px 0;
+}
+
+/deep/ .add-course-form-field input {
+	height: 25px;
+}
+
+/deep/ .add-course-form-field label {
+	position: absolute;
+	left: -115px;
+	width: 100px;
+	text-align: right;
+}
+
+/deep/ .add-course-form-field {
+	position: relative;
+}
+
+/deep/ input.ng-invalid.ng-dirty,
+/deep/ textarea.ng-invalid.ng-dirty {
+	border: 1px solid red;
+}
+
+/deep/ .error {
+	margin: 0;
+	color: red;
+}
+
+/deep/ .ng-invalid:not(form) .add-course-form-field .ng-dirty {
+	border: 1px solid red;
 }

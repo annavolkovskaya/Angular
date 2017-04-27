@@ -3,5 +3,5 @@
 		<input type="text" name="search" [(ngModel)]="searchQuery">
 		<button-component [text]="searchQuery" [buttonClick]="findCourseCallback" [buttonText]="findText"></button-component>
 	</div>
-	<button-component [buttonClick]="addCourse" [buttonText]="addCourseText"></button-component>
+	<button-component *ngIf="authService.isAuthenticated()" [buttonClick]="addCourse" [buttonText]="addCourseText"></button-component>
 </div>

@@ -20,8 +20,6 @@ import {
 
 export class ButtonComponent {
   @Input()
-  public disabled: boolean;
-  @Input()
   public buttonClick: Function;
   @Input()
   public buttonText: string;

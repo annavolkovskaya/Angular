@@ -3,13 +3,13 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'durationTransform'
 })
 export class DurationPipe implements PipeTransform {
-  public transform (duration: number) {
+  public transform (duration: string) {
     const minutesInHour = 60;
-    const hours = Math.floor(duration / minutesInHour)
-      ? `${Math.floor(duration / minutesInHour)}h`
+    const hours = Math.floor(+duration / minutesInHour)
+      ? `${Math.floor(+duration / minutesInHour)}h`
       : '';
-    const minutes = duration % minutesInHour
-      ? `${duration % minutesInHour}min`
+    const minutes = +duration % minutesInHour
+      ? `${+duration % minutesInHour}min`
       : '';
     return `${hours} ${minutes}`;
   }
