@@ -20,7 +20,6 @@ export class SpinnerComponent {
   constructor(private spinnerService: SpinnerService) {
     this.spinnerService.spinnerIsShowed.subscribe((value) => {
       this.isShown = value;
-      console.log('value changed ' + value);
     });
   }
 }

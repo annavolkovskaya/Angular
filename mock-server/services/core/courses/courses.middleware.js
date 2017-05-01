@@ -22,6 +22,7 @@ module.exports = (server) => {
 		const totalNumber = Math.ceil(courses.length / count);
 		const currentPage = Math.ceil(startIndex / count);
 		courses = courses.slice(startIndex, finishIndex);
+		console.log(courses);
 		res.json({
 			courses,
 			totalNumber,
@@ -29,13 +30,38 @@ module.exports = (server) => {
 		});
 	});
 
-	router.delete('/courses', (req, res, next) => {
-
-		let courseId = req.body.id;
+	router.post('/courses/update', (req, res, next) => {
+		const request = req.body;
+		const updateCourseInfo = request.body;
+		const courseId = updateCourseInfo.id;
 		let courses = server.db.getState().courses;
-			matchedCourseIndex = courses.findIndex((course) => {
-				return course.id === courseId;
-			});
+		const matchedCourseIndex = courses.findIndex((course) => {
+			return course.id === courseId;
+		});
+
+		if(matchedCourseIndex === -1) {
+			res.status(401).send({ error: 'No such course' });
+		} else {
+			courses.splice(matchedCourseIndex, 1, updateCourseInfo);
+			fs.writeFile("./services/core/courses/courses.db.json", JSON.stringify({ courses }), 'utf8', () => res.send(true)); 
+		}
+	});
+
+	router.get('/courses/:id', function (req, res, next) {
+	  const { id } = req.params;
+	  const courses = server.db.getState().courses;
+	  const course = courses.find(item => item.id === +id);
+	  res.json({
+	  	course
+	  })
+	});
+
+	router.delete('/courses', (req, res, next) => {
+		const courseId = req.body.id;
+		let courses = server.db.getState().courses;
+		const matchedCourseIndex = courses.findIndex((course) => {
+			return course.id === courseId;
+		});
 
 		if(matchedCourseIndex === -1) {
 			res.status(401).send({ error: 'No such course' });

@@ -14,7 +14,7 @@
 		<div>{{courseData.description}}</div>
 	</div>
 	<div class="course__actions">
-		<button-component [buttonClick]="editCourse" [buttonText]="editCourseText"></button-component>
+		<button routerLink="/courses/{{courseData.id}}">{{editCourseText}}</button>
 		<button-component [buttonClick]="deleteCourseCallback" [buttonText]="deleteCourseText" [text]="courseData.id"></button-component>
 	</div>
 </div>

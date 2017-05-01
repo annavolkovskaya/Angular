@@ -16,9 +16,25 @@ export interface GetListInteface {
 @Injectable()
 export class CoursesService {
   public baseUrl: string;
+  public currentCourseTitle = new BehaviorSubject(null);
   constructor(private http: AuthorizedHttp) {
     this.baseUrl = 'http://localhost:3004';
   }
+  public getCourse(id: number): Observable<CourseObject> {
+    let requestOptions = new RequestOptions();
+    let params = new URLSearchParams();
+    let request: Request;
+    requestOptions.url = `${this.baseUrl}/courses/${id}`;
+    requestOptions.method = RequestMethod.Get;
+
+    requestOptions.search = params;
+    request = new Request(requestOptions);
+    return this.http.request(request).map((res) => {
+      this.currentCourseTitle.next(res.json().course.title);
+      return res.json().course;
+    });
+  }
+
   public getList(pageNumber: number, query?: string): Observable<GetListInteface> {
     let requestOptions = new RequestOptions();
     let params = new URLSearchParams();
@@ -37,22 +53,24 @@ export class CoursesService {
                     .map((json) => {
                       return {
                         courses: json.courses.map((course) => {
-                        if (!course.id) {
-                          return null;
-                        }
-                        return {
-                          title: course.title || 'No title',
-                          description: course.description || 'No description',
-                          date: course.date || new Date().toISOString(),
-                          duration: course.duration || null,
-                          id: course.id,
-                          topRated: course.topRated || false
-                        };
+                          if (!course.id) {
+                            return null;
+                          }
+                          return {
+                            title: course.title || 'No title',
+                            description: course.description || 'No description',
+                            date: course.date || new Date().toISOString(),
+                            duration: course.duration || null,
+                            id: course.id,
+                            topRated: course.topRated || false
+                          };
                       })
                       .filter((course) => {
-                      return !!course &&
+                      const a = !!course &&
                              new Date(course.date).getTime() >=
                              (new Date().getTime() - 14 * millisecondsInDay);
+                      console.log(course);
+                      return a;
                       }),
                       totalNumber: json.totalNumber,
                       currentPage: json.currentPage
@@ -66,8 +84,14 @@ export class CoursesService {
   public getItemById(id: Number): void {
     console.log(id);
   };
-  public updateItem(course: CourseObject): void {
-    console.log('Update');
+  public updateItem(course: CourseObject): Observable<Boolean> {
+    let requestOptions = new RequestOptions();
+    const date = new Date(course.date.split('/').reverse().join('/'));
+    const formattedDate = date.toISOString().replace('.000Z', '+00:00');
+    requestOptions.body = {...Object.assign({}, course, { date: formattedDate })};
+    return this.http.post(`${this.baseUrl}/courses/update`, requestOptions)
+      .map((response) => response.json())
+      .catch(AuthService.handleError);
   }
   public removeItem(id: Number): Observable<Boolean> {
     let requestOptions = new RequestOptions();

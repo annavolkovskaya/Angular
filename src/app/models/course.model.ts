@@ -1,4 +1,7 @@
+import { AuthorObject } from './author.model';
+
 export interface CourseObject {
+  authors: AuthorObject[];
   title: string;
   duration: number;
   description: string;

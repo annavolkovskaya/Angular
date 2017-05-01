@@ -1,10 +1,10 @@
-<search-component *ngIf="!addCourseMode"
+<search-component
 [addCourse]="handleAddCourse"
 [(currentCourses)] = "courses"
 [(totalNumber)] = "totalNumber"
 [(searchQuery)] = "searchQuery">
 </search-component>
-<div *ngIf="!addCourseMode && !!courses">
+<div *ngIf="!!courses">
 	<course-component
 		*ngFor="let course of courses | orderBy : 'date'"
 			[courseData] = "course"
@@ -17,7 +17,6 @@
 	[(currentCourses)] = "courses"
 	[searchQuery] = "searchQuery">
 </paging>
-<add-course-component *ngIf="addCourseMode" [authors]="authors" (cancelAddCourseMode)="resetAddCourseMode()"></add-course-component>
-<div *ngIf="!addCourseMode">
+<div>
 	<empty-component [data]="courses"></empty-component>
 </div>

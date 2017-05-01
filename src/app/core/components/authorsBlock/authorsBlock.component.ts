@@ -1,7 +1,9 @@
 import {
   Component,
   Input,
-  OnChanges
+  OnChanges,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { AuthorObject } from '../../../models/author.model';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
@@ -60,18 +62,26 @@ import { validateAuthors } from '../../../validators/authors.validator';
 
 export class AuthorsComponent implements OnChanges {
   @Input() public authors: AuthorObject[];
+  @Input() public checkedAuthors?: AuthorObject[];
   public modelForm: FormGroup;
+  @Output()
+  public checkedAuthorsChange = new EventEmitter();
 
   public ngOnChanges(changes) {
-		// console.log(modelForm.controls.selectedItems.value);
     const items = this.authors || [];
     const group = [];
 
     items.forEach((l) => {
+      let isChecked = false;
+      if (this.checkedAuthors.findIndex((item) =>
+        item.name.toLowerCase() === l.name.toLowerCase()) !== -1
+      ) {
+        isChecked = true;
+      }
       group.push(new FormGroup({
         key: new FormControl(l.name),
         value: new FormControl(l.name),
-        checked: new FormControl(false),
+        checked: new FormControl(isChecked),
       }));
     });
 
@@ -84,6 +94,12 @@ export class AuthorsComponent implements OnChanges {
 
     formControlArray.valueChanges.subscribe((v) => {
       this.modelForm.controls.selectedItems.setValue(validateAuthors(v));
+      const checkedItems = this.modelForm.controls.selectedItems.value.map((item) => {
+        return {
+          name: item
+        };
+      });
+      this.checkedAuthorsChange.emit(checkedItems);
     });
   }
 }

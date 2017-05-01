@@ -19,7 +19,7 @@ import { SpinnerService } from './services/spinner.service';
 @Component({
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
-  providers: [AuthService, SpinnerService],
+  providers: [SpinnerService],
   styleUrls: [
     './app.component.css'
   ],
@@ -27,7 +27,7 @@ import { SpinnerService } from './services/spinner.service';
     <main>
       <spinner></spinner>
       <header-component></header-component>
-      <courses-component></courses-component>
+      <router-outlet></router-outlet>
       <footer-component></footer-component>
     </main>
   `
@@ -46,17 +46,15 @@ export class AppComponent implements OnInit {
   }
 
   public onZoneStable() {
-    console.log('We are stable');
-    console.log(new Date().getTime() - this.unstableTime);
+    return true;
   }
 
   public onZoneUnstable() {
-    console.log('We are unstable');
     this.unstableTime = new Date().getTime();
   }
 
   public ngOnInit() {
-    console.log('Initial App State', this.appState.state);
+    return true;
   }
 
 }

@@ -65,7 +65,7 @@ export class AuthService {
       localStorage.removeItem('userToken');
   };
 
-  public isAuthenticated(): Boolean {
+  public isAuthenticated(): boolean {
     return !!this.loggedIn.value;
   };
 

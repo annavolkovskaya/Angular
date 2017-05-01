@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
+import { RouterModule, PreloadAllModules } from '@angular/router';
 import {
   NgModule,
   ApplicationRef
@@ -33,6 +34,7 @@ import { EmptyComponent } from './core/components/emptyBlock/emptyBlock.componen
 import { StarComponent } from './core/components/star/star.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
+import { DatePipe } from './pipes/date.pipe';
 import { DateValidator } from './directives/dateValidator.directive';
 import { BorderDirective } from './directives/border.directive';
 import { AddCourseComponent } from './pages/courses/addCourse/addCourse.component';
@@ -41,6 +43,12 @@ import { DateFieldComponent } from './core/components/dateField/dateField.compon
 import { DurationFieldComponent } from './core/components/durationField/durationField.component';
 import { DurationValidator } from './directives/durationValidator.directive';
 import { AuthorsComponent } from './core/components/authorsBlock/authorsBlock.component';
+import { PageNotFoundComponent } from './core/components/pageNotFound/pageNotFound.component';
+import { ROUTES } from './app.routes';
+import { EditCourseComponent } from './pages/courses/editCourse/editCourse.component';
+import { CanActivateViaAuthGuard } from './guards/auth.guard';
+import { AuthService } from './services/auth.service';
+import { CoursesService } from './services/courses.service';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -72,7 +80,6 @@ type StoreType = {
     SearchComponent,
     ButtonComponent,
     FooterComponent,
-    LoginComponent,
     SpinnerComponent,
     EmptyComponent,
     StarComponent,
@@ -83,13 +90,18 @@ type StoreType = {
     DateValidator,
     DurationFieldComponent,
     DurationValidator,
-    AuthorsComponent
+    AuthorsComponent,
+    PageNotFoundComponent,
+    EditCourseComponent,
+    LoginComponent,
+    DatePipe
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     {
@@ -101,6 +113,9 @@ type StoreType = {
     },
     ENV_PROVIDERS,
     APP_PROVIDERS,
+    CanActivateViaAuthGuard,
+    AuthService,
+    CoursesService
   ]
 })
 export class AppModule {

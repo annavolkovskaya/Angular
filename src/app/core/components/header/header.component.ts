@@ -2,7 +2,8 @@ import {
   Component
 } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { SpinnerService } from '../../../services/spinner.service';
+import { CoursesService } from '../../../services/courses.service';
+import { Router } from '@angular/router';
 
 @Component ({
   selector: 'header-component',
@@ -13,12 +14,20 @@ import { SpinnerService } from '../../../services/spinner.service';
 export class HeaderComponent {
   public currentUser: String = '';
   public logOffText = 'Log off';
+  public logInText = 'Log in';
+  public courseName: String;
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    public coursesService: CoursesService,
+    public router: Router
   ) {
     this.authService.loggedIn
-      .subscribe((value) => this.currentUser = value ? value : null);
+        .subscribe((value) => this.currentUser = value ? value : null);
+    this.coursesService.currentCourseTitle
+        .subscribe((value) => {
+          this.courseName = value;
+        });
   }
 
   public logOff = () => {
@@ -28,5 +37,4 @@ export class HeaderComponent {
   public isLoggedIn(): boolean {
     return !!this.authService.loggedIn.value;
   }
-
 }

@@ -12,3 +12,7 @@ input {
 	margin-right: 10px;
 	width: 200px;
 }
+
+button {
+	cursor: pointer;
+}

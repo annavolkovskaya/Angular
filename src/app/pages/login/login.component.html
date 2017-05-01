@@ -8,4 +8,5 @@
 		<input id="password" type="password" name="password" required [(ngModel)]="password">
 	</div>
 	<button [disabled]="!(loginForm.valid && loginForm.dirty)" type="submit">{{enterText}}</button>
+	<button routerLink="/courses">Cancel</button>
 </form>

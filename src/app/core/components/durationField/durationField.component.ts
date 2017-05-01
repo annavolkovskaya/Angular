@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 export const CUSTOM_ACCESSOR: any = {
@@ -18,6 +18,7 @@ export const CUSTOM_ACCESSOR: any = {
           id="duration"
           name="durationInput"
           (ngModelChange)="handleDurationInputChange($event)"
+          value="{{fieldValue}}"
           (blur)="onBlur()">
          <span>{{durationInput.value | durationTransform}}</span>
     </div>
@@ -26,6 +27,7 @@ export const CUSTOM_ACCESSOR: any = {
 })
 export class DurationFieldComponent implements ControlValueAccessor {
   public duration: string;
+  @Input() public fieldValue?: String;
   private innerValue: any = '';
   private onTouchedCallback: () => {};
   private onChangeCallback: (_: any) => {};

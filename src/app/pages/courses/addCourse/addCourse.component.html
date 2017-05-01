@@ -1,31 +1,33 @@
 <form #form="ngForm" (submit)="saveChanges(form)">
 	<div class="add-course-form-field">
 		<label for="title">Title</label>
-		<input #name="ngModel" id="title" type="text" name="title" required maxlength="50" ngModel>
+		<input #name="ngModel" id="title" type="text" value="{{courseInfo && courseInfo.title}}" name="title" required maxlength="50" ngModel>
 		<div class="error" *ngIf="name.invalid && name.dirty">{{name?.errors | json}}</div>
 	</div>
 	<div class="add-course-form-field">
 		<label for="description">Description</label>
-		<textarea #description="ngModel" name="description" id="description" cols="30" required maxlength="500" ngModel></textarea>
+		<textarea #description="ngModel" name="description" value="{{courseInfo && courseInfo.description}}" id="description" cols="30" required maxlength="500" ngModel></textarea>
 		<div class="error" *ngIf="description.invalid && description.dirty">{{description?.errors | json}}</div>
 	</div>
 	<date-field-component
 		#dateInput="ngModel"
-		name="someDate"
+		name="date"
 		required
 		validateDate
+		[fieldValue]="courseInfo && courseInfo.date"
 	  [(ngModel)]="dateModel"></date-field-component>
 	  <div class="error" *ngIf="dateInput.invalid && dateInput.dirty">{{dateInput?.errors | json}}</div>
 	<duration-field-component
 		#durationInput="ngModel"
-		name="someDuration"
+		name="duration"
 		required
+		[fieldValue]="courseInfo && courseInfo.duration"
 		validateDuration
 	  [(ngModel)]="dataModel"></duration-field-component>
 	<div class="error" *ngIf="durationInput.invalid && durationInput.dirty">{{durationInput?.errors | json}}</div>
-	<authors-component [authors]="authors"></authors-component>
+	<authors-component [(checkedAuthors)]="checkedAuthors" [authors]="authors"></authors-component>
 	<div class="buttons">
 		<button type="submit" [disabled]="!(form.valid && form.dirty)">{{saveBtnText}}</button>
-		<button type="button" (click)="onCancelButtonClick()">{{cancelBtnText}}</button>
+		<button type="button" routerLink="/courses">{{cancelBtnText}}</button>
 	</div>
 </form>

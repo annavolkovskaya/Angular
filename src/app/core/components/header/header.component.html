@@ -1,8 +1,12 @@
 <div class="header">
 	<logo-container></logo-container>
-	<div class="header__container" *ngIf="isLoggedIn()">
-		<p>{{currentUser}} login</p>
-		<button-component [buttonClick]="logOff" [buttonText]="logOffText"></button-component>
+	<div *ngIf="courseName" class="course">
+		<button routerLink="/courses">Courses</button>
+		<span>> {{courseName}}</span>
+	</div>
+	<div class="header__container">
+		<p *ngIf="isLoggedIn()">{{currentUser}} login</p>
+		<button routerLink="/courses" (click)="logOff()" *ngIf="isLoggedIn()">{{logOffText}}</button>
+		<button routerLink="/login" *ngIf="!(isLoggedIn() || router.url.includes('/login'))">{{logInText}}</button>
 	</div>
 </div>
-<login-page *ngIf="!isLoggedIn()"></login-page>

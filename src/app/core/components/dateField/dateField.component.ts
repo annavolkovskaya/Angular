@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 export const CUSTOM_ACCESSOR: any = {
@@ -17,6 +17,7 @@ export const CUSTOM_ACCESSOR: any = {
           #date="ngModel"
           id="date"
           name="date"
+          value="{{fieldValue | dateTransform}}"
           (blur)="onBlur()">
     </div>
 	`,
@@ -24,6 +25,7 @@ export const CUSTOM_ACCESSOR: any = {
 })
 
 export class DateFieldComponent implements ControlValueAccessor {
+  @Input() public fieldValue?: String;
   private innerValue: any = '';
   private onTouchedCallback: () => {};
   private onChangeCallback: (_: any) => {};

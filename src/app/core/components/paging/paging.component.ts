@@ -87,6 +87,7 @@ export class PagingComponent implements OnInit {
   }
 
   private handleJson(list: GetListInteface) {
+    console.log(list);
     this.currentCourses = list.courses;
     this.totalNumber = list.totalNumber;
     this.currentPage = list.currentPage;
