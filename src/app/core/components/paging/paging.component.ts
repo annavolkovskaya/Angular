@@ -1,13 +1,17 @@
 import {
   Component,
   Input,
-  OnInit,
   Output,
   EventEmitter
 } from '@angular/core';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CourseObject } from '../../../models/course.model';
 import { CoursesService, GetListInteface } from '../../../services/courses.service';
+
+import { Store } from '@ngrx/store';
+import { State } from '../../../state/main.state';
+
+import { nextPage, prevPage } from '../../../actions/courses.actions';
 
 @Component ({
   selector: 'paging',
@@ -39,59 +43,38 @@ import { CoursesService, GetListInteface } from '../../../services/courses.servi
   `]
 })
 
-export class PagingComponent implements OnInit {
-  @Input()
-  public currentPage: number;
-  @Input()
-  public totalNumber: number;
-  @Input()
-  public currentCourses: CourseObject[];
-  @Input()
-  public searchQuery: string;
-  @Output()
-  public currentCoursesChange = new EventEmitter();
-  @Output()
-  public currentPageChange = new EventEmitter();
+export class PagingComponent {
 
   public backText: string;
   public forwardText: string;
 
-  private subscriptionObject = {
-    next: (list) => this.handleJson(list),
-    complete: () => this.spinnerService.hide()
-  };
-
+  public currentPage: number;
+  public totalNumber: number;
+  public currentCourses: CourseObject[];
   constructor(
     private coursesService: CoursesService,
-    private spinnerService: SpinnerService
-    ) {
+    private spinnerService: SpinnerService,
+    private store: Store<State>
+  ) {
     this.backText = 'Go Back';
     this.forwardText = 'Go Forward';
+    this.store.select('combinedReducer', 'coursesStoreReducer')
+      .subscribe((state: State) => {
+        if (state) {
+          this.currentCourses = state.courses;
+          this.currentPage = state.currentPage;
+          this.totalNumber = state.totalNumber;
+        }
+      });
   }
 
   public goBack = () => {
     this.spinnerService.show();
-    this.coursesService.getList(--this.currentPage, this.searchQuery)
-        .subscribe(this.subscriptionObject);
+    this.store.dispatch(prevPage());
   }
 
   public goForward = () => {
     this.spinnerService.show();
-    this.coursesService.getList(++this.currentPage, this.searchQuery)
-        .subscribe(this.subscriptionObject);
-  }
-
-  public ngOnInit() {
-    this.coursesService.getList(0)
-      .subscribe(this.subscriptionObject);
-  }
-
-  private handleJson(list: GetListInteface) {
-    console.log(list);
-    this.currentCourses = list.courses;
-    this.totalNumber = list.totalNumber;
-    this.currentPage = list.currentPage;
-    this.currentCoursesChange.emit(this.currentCourses);
-    this.currentPageChange.emit(this.currentPage);
+    this.store.dispatch(nextPage());
   }
 }

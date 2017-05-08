@@ -1,9 +1,10 @@
 import {
-  Component,
-  Input
+  Component
 } from '@angular/core';
 
-import { SpinnerService } from '../../../services/spinner.service';
+import { Store } from '@ngrx/store';
+import { State } from '../../../state/main.state';
+import { Observable } from 'rxjs';
 
 @Component ({
   selector: 'spinner',
@@ -14,12 +15,19 @@ import { SpinnerService } from '../../../services/spinner.service';
 })
 
 export class SpinnerComponent {
-  @Input()
   public isShown: boolean;
 
-  constructor(private spinnerService: SpinnerService) {
-    this.spinnerService.spinnerIsShowed.subscribe((value) => {
-      this.isShown = value;
-    });
-  }
+  constructor(private store: Store<State>) {
+      Observable.combineLatest(
+        store.select('combinedReducer', 'spinnerStoreReducer', 'isSpinnerShown'),
+        store.select('combinedReducer', 'coursesStoreReducer', 'isSpinnerShown'),
+        (spinner1: boolean, spinner2: boolean) => {
+          return {
+            spinner1,
+            spinner2
+          };
+      }).subscribe((result) => {
+          this.isShown = !(!result.spinner1 || !result.spinner2);
+        });
+    }
 }

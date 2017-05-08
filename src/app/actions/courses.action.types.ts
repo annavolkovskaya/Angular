@@ -1,0 +1,9 @@
+export const DELETE_COURSE: string = 'DELETE_COURSE';
+export const UPDATE_LIST: string = 'UPDATE_LIST';
+export const SEARCH: string = 'SEARCH';
+export const NEXT_PAGE: string = 'NEXT_PAGE';
+export const PREVIOUS_PAGE: string = 'PREVIOUS_PAGE';
+export const CURRENT_COURSE: string = 'CURRENT_COURSE';
+export const ENABLE_EDIT_MODE: string = 'ENABLE_EDIT_MODE';
+export const DISABLE_EDIT_MODE: string = 'DISABLE_EDIT_MODE';
+export const UPDATE_COURSE: string = 'UPDATE_COURSE';

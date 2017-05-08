@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
   NgModule,
   ApplicationRef
@@ -35,13 +37,13 @@ import { StarComponent } from './core/components/star/star.component';
 import { DurationPipe } from './pipes/duration.pipe';
 import { OrderByPipe } from './pipes/orderBy.pipe';
 import { DatePipe } from './pipes/date.pipe';
-import { DateValidator } from './directives/dateValidator.directive';
+import { DateValidatorDirective } from './directives/dateValidator.directive';
 import { BorderDirective } from './directives/border.directive';
 import { AddCourseComponent } from './pages/courses/addCourse/addCourse.component';
 import { AuthorizedHttp } from './core/utils/authorizedHttp';
 import { DateFieldComponent } from './core/components/dateField/dateField.component';
 import { DurationFieldComponent } from './core/components/durationField/durationField.component';
-import { DurationValidator } from './directives/durationValidator.directive';
+import { DurationValidatorDirective } from './directives/durationValidator.directive';
 import { AuthorsComponent } from './core/components/authorsBlock/authorsBlock.component';
 import { PageNotFoundComponent } from './core/components/pageNotFound/pageNotFound.component';
 import { ROUTES } from './app.routes';
@@ -49,6 +51,7 @@ import { EditCourseComponent } from './pages/courses/editCourse/editCourse.compo
 import { CanActivateViaAuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
 import { CoursesService } from './services/courses.service';
+import { combinedReducer } from './reducers/combined.reducers';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 
@@ -87,21 +90,25 @@ type StoreType = {
     OrderByPipe,
     AddCourseComponent,
     DateFieldComponent,
-    DateValidator,
+    DateValidatorDirective,
     DurationFieldComponent,
-    DurationValidator,
+    DurationValidatorDirective,
     AuthorsComponent,
     PageNotFoundComponent,
     EditCourseComponent,
     LoginComponent,
     DatePipe
   ],
-  imports: [ // import Angular's modules
+  imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    StoreModule.provideStore({combinedReducer}),
+    StoreDevtoolsModule.instrumentOnlyWithExtension({
+      maxAge: 5
+    }),
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     {
@@ -128,7 +135,6 @@ export class AppModule {
     if (!store || !store.state) {
       return;
     }
-    console.log('HMR store', JSON.stringify(store, null, 2));
     // set state
     this.appState._state = store.state;
     // set input values

@@ -7,8 +7,11 @@ import {
 import { SpinnerService } from '../../../services/spinner.service';
 import { CoursesService } from '../../../services/courses.service';
 import { CourseObject } from '../../../models/course.model';
-import { AuthService } from '../../../services/auth.service';
 
+import { Store } from '@ngrx/store';
+import { State } from '../../../state/main.state';
+
+import { search } from '../../../actions/courses.actions';
 @Component ({
   selector: 'search-component',
   styleUrls: ['./search.component.css'],
@@ -18,35 +21,22 @@ import { AuthService } from '../../../services/auth.service';
 export class SearchComponent {
   public findText = 'Find';
   public addCourseText = 'Add course';
-
-  @Input() public addCourse: Function;
-  @Input() public currentCourses: CourseObject[];
-  @Input() public totalNumber: number;
-  @Input() public searchQuery: string;
-  @Output() public currentCoursesChange = new EventEmitter();
-  @Output() public totalNumberChange = new EventEmitter();
-  @Output() public searchQueryChange = new EventEmitter();
-
+  public isAuth: boolean = false;
+  public searchQuery: string;
   constructor(
     private coursesService: CoursesService,
     private spinnerService: SpinnerService,
-    public authService: AuthService
-  ) { }
+    private store: Store<State>
+  ) {
+    this.store.select('combinedReducer', 'authStoreReducer')
+      .subscribe((state: State) => this.isAuth = state.isLoggedIn);
+
+    this.store.select('combinedReducer', 'coursesStoreReducer')
+      .subscribe((state: State) => this.searchQuery = state.searchQuery);
+  }
 
   public findCourseCallback = (query) => {
     this.spinnerService.show();
-    this.coursesService.getList(0, this.searchQuery)
-      .subscribe({
-        next: (list) => {
-          this.currentCourses = list.courses;
-          this.totalNumber = list.totalNumber;
-          this.totalNumberChange.emit(this.totalNumber);
-          this.currentCoursesChange.emit(this.currentCourses);
-        },
-        complete: () => {
-          this.searchQueryChange.emit(this.searchQuery);
-          this.spinnerService.hide();
-        }
-      });
+    this.store.dispatch(search(query));
   }
 }

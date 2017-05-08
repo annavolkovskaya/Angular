@@ -38,7 +38,7 @@ export class DurationFieldComponent implements ControlValueAccessor {
 
   get value(): any {
     return this.innerValue;
-  };
+  }
 
   set value(v: any) {
     if (v !== this.innerValue) {

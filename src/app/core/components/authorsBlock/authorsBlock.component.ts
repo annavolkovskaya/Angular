@@ -73,7 +73,7 @@ export class AuthorsComponent implements OnChanges {
 
     items.forEach((l) => {
       let isChecked = false;
-      if (this.checkedAuthors.findIndex((item) =>
+      if ((this.checkedAuthors || []).findIndex((item) =>
         item.name.toLowerCase() === l.name.toLowerCase()) !== -1
       ) {
         isChecked = true;
@@ -93,8 +93,8 @@ export class AuthorsComponent implements OnChanges {
     });
 
     formControlArray.valueChanges.subscribe((v) => {
-      this.modelForm.controls.selectedItems.setValue(validateAuthors(v));
-      const checkedItems = this.modelForm.controls.selectedItems.value.map((item) => {
+      this.modelForm.get('selectedItems').setValue(validateAuthors(v));
+      const checkedItems = this.modelForm.get('selectedItems').value.map((item) => {
         return {
           name: item
         };

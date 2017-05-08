@@ -22,7 +22,6 @@ module.exports = (server) => {
 		const totalNumber = Math.ceil(courses.length / count);
 		const currentPage = Math.ceil(startIndex / count);
 		courses = courses.slice(startIndex, finishIndex);
-		console.log(courses);
 		res.json({
 			courses,
 			totalNumber,

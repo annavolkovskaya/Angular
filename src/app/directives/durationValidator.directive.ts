@@ -4,11 +4,11 @@ import { NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
 @Directive({
   selector: '[validateDuration][ngModel]',
   providers: [{
-    provide: NG_VALIDATORS, useExisting: forwardRef(() => DurationValidator),
+    provide: NG_VALIDATORS, useExisting: forwardRef(() => DurationValidatorDirective),
     multi: true
   }]
 })
-export class DurationValidator implements Validator {
+export class DurationValidatorDirective implements Validator {
 
   private regex = /^[0-9]+$/;
 

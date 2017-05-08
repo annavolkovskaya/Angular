@@ -1,5 +1,5 @@
 {
-	"courses": [
+  "courses": [
   {
     "id": 4408,
     "title": "voluptate culpa non commodo",
@@ -86,7 +86,7 @@
     "title": "deserunt ullamco excepteur irure",
     "description": "Eiusmod reprehenderit sint magna nulla aliqua. Ullamco aliqua dolore excepteur minim esse in. Pariatur amet dolore nulla aliquip tempor est occaecat velit.",
     "topRated": true,
-    "date": "2017-05-16T04:20:18+00:00",
+    "date": "2017-06-16T04:20:18+00:00",
     "duration": 90,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },
@@ -95,7 +95,7 @@
     "title": "consectetur ea incididunt cillum",
     "description": "Ut non velit sunt sunt quis dolor. Nisi minim ex exercitation elit culpa nulla enim aliquip. Dolor aute cillum eiusmod proident laborum consectetur Lorem consequat et ea commodo laborum.",
     "topRated": false,
-    "date": "2017-05-02T08:10:27+00:00",
+    "date": "2017-06-02T08:10:27+00:00",
     "duration": 355,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },
@@ -104,7 +104,7 @@
     "title": "proident nulla in mollit",
     "description": "Veniam qui reprehenderit nostrud sunt ut officia. Enim aliquip eu consectetur do labore cupidatat minim anim nulla culpa velit ad nisi. Adipisicing veniam deserunt et excepteur ullamco duis sit dolor labore sint ullamco ad Lorem laborum.",
     "topRated": false,
-    "date": "2017-04-23T07:00:19+00:00",
+    "date": "2017-06-23T07:00:19+00:00",
     "duration": 270,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },
@@ -113,7 +113,7 @@
     "title": "nisi exercitation in cupidatat",
     "description": "Consectetur ipsum exercitation ea ad exercitation ipsum tempor laborum minim fugiat in tempor. Nisi qui nisi culpa anim aute. Consectetur sit duis cillum ea esse adipisicing occaecat aute pariatur do sint.",
     "topRated": true,
-    "date": "2017-05-07T22:27:48+00:00",
+    "date": "2017-06-07T22:27:48+00:00",
     "duration": 259,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },
@@ -194,7 +194,7 @@
     "title": "nulla dolore ea aute",
     "description": "Excepteur eiusmod magna cillum reprehenderit nulla non. Dolor aute commodo ea exercitation minim ea nulla. Ut velit fugiat sit dolor ipsum ipsum voluptate.",
     "topRated": false,
-    "date": "2017-04-23T15:46:00+00:00",
+    "date": "2017-06-23T15:46:00+00:00",
     "duration": 153,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },
@@ -248,7 +248,7 @@
     "title": "qui do exercitation sint",
     "description": "Consequat culpa enim qui ut aliquip et. Tempor proident occaecat ipsum Lorem deserunt Lorem irure proident ipsum occaecat elit et. Aliqua magna eiusmod ipsum aute Lorem veniam ad et sint ea dolor minim veniam reprehenderit.",
     "topRated": false,
-    "date": "2017-04-19T02:16:27+00:00",
+    "date": "2017-06-19T02:16:27+00:00",
     "duration": 269,
     "authors": [{ "name": "Author 1" }, { "name": "Author 2" }]
   },

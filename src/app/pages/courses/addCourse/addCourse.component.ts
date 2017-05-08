@@ -4,7 +4,6 @@ import {
   OnInit,
   EventEmitter,
   Input,
-  OnChanges,
   ChangeDetectorRef
 } from '@angular/core';
 import { AuthorObject } from '../../../models/author.model';
@@ -17,6 +16,9 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { CoursesService } from '../../../services/courses.service';
 import { CourseObject } from '../../../models/course.model';
 
+import { Store } from '@ngrx/store';
+import { State } from '../../../state/main.state';
+
 @Component ({
   selector: 'add-course-component',
   templateUrl: './addCourse.component.html',
@@ -24,14 +26,13 @@ import { CourseObject } from '../../../models/course.model';
   providers: [AuthorsService]
 })
 
-export class AddCourseComponent implements OnInit, OnChanges {
+export class AddCourseComponent implements OnInit {
   public saveBtnText = 'Save';
   public cancelBtnText = 'Cancel';
   public authors: AuthorObject[];
   public checkedAuthors: AuthorObject[] = [];
-  @Input() public courseInfo?: CourseObject;
-  @Input() public validateOnRender?: Boolean;
-  @Input() public editingCourseMode?: Boolean;
+  public courseInfo?: CourseObject;
+  public editingCourseMode?: Boolean;
 
   constructor(
     private authorsService: AuthorsService,
@@ -39,31 +40,27 @@ export class AddCourseComponent implements OnInit, OnChanges {
     private courseService: CoursesService,
     private authService: AuthService,
     private ref: ChangeDetectorRef,
-    private router: Router
-  ) { }
+    private router: Router,
+    private store: Store<State>
+  ) {
+    this.store.select('combinedReducer', 'coursesStoreReducer')
+      .subscribe((state: State) => {
+        this.courseInfo = state.currentCourse;
+        this.checkedAuthors = state.currentCourse && state.currentCourse.authors;
+        this.editingCourseMode = state.editCourseMode;
+      });
+  }
 
   public saveChanges = (form) => {
     if (!this.editingCourseMode) {
       this.router.navigate(['/courses']);
-      return;
     }
     this.spinnerService.show();
     this.courseService.updateItem({
       id: this.courseInfo.id,
       ...form.value,
       authors: this.checkedAuthors
-    }).subscribe({
-        error: (err) => alert('something wrong occurred: ' + err),
-        complete: () => {
-          this.router.navigate(['/courses']);
-          this.spinnerService.hide();
-        }
-      });
-  }
-
-  public ngOnChanges(changes) {
-    this.checkedAuthors = (changes.courseInfo.currentValue &&
-                          changes.courseInfo.currentValue.authors) || [];
+    });
   }
 
   public ngOnInit() {

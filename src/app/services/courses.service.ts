@@ -4,7 +4,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Response, RequestOptions, RequestMethod, URLSearchParams, Request } from '@angular/http';
 import { AuthorizedHttp } from '../core/utils/authorizedHttp';
+import { Router } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+import { State } from '../state/main.state';
+
+import { updateList, deleteCourse, currentCourse, updateCourse } from '../actions/courses.actions';
 let COURSES: CourseObject[];
 
 export interface GetListInteface {
@@ -16,11 +21,22 @@ export interface GetListInteface {
 @Injectable()
 export class CoursesService {
   public baseUrl: string;
-  public currentCourseTitle = new BehaviorSubject(null);
-  constructor(private http: AuthorizedHttp) {
+
+  constructor(
+    private http: AuthorizedHttp,
+    private store: Store<State>,
+    private router: Router
+  ) {
     this.baseUrl = 'http://localhost:3004';
+    this.store.select('combinedReducer', 'coursesStoreReducer')
+      .subscribe((state: State) => {
+        if (state.coursesNeedUpdate) {
+          this.getList(state.currentPage, state.searchQuery);
+        }
+      });
   }
-  public getCourse(id: number): Observable<CourseObject> {
+
+  public getCourse(id: number): void {
     let requestOptions = new RequestOptions();
     let params = new URLSearchParams();
     let request: Request;
@@ -29,13 +45,15 @@ export class CoursesService {
 
     requestOptions.search = params;
     request = new Request(requestOptions);
-    return this.http.request(request).map((res) => {
-      this.currentCourseTitle.next(res.json().course.title);
+    this.http.request(request).map((res) => {
       return res.json().course;
+    })
+    .subscribe((course) => {
+      this.store.dispatch(currentCourse(course));
     });
   }
 
-  public getList(pageNumber: number, query?: string): Observable<GetListInteface> {
+  public getList(pageNumber: number, query?: string): void {
     let requestOptions = new RequestOptions();
     let params = new URLSearchParams();
     let request: Request;
@@ -48,7 +66,7 @@ export class CoursesService {
     requestOptions.search = params;
     request = new Request(requestOptions);
     const millisecondsInDay = 86400 * 1000;
-    return this.http.request(request)
+    this.http.request(request)
                     .map((res) => res.json())
                     .map((json) => {
                       return {
@@ -69,14 +87,17 @@ export class CoursesService {
                       const a = !!course &&
                              new Date(course.date).getTime() >=
                              (new Date().getTime() - 14 * millisecondsInDay);
-                      console.log(course);
                       return a;
                       }),
                       totalNumber: json.totalNumber,
                       currentPage: json.currentPage
                     };
                     })
-                    .catch(AuthService.handleError);
+                    .catch(AuthService.handleError)
+                    .subscribe((result) =>
+                      this.store.dispatch(updateList(result))
+                    );
+
    };
   public createCourse(course: CourseObject): void {
     console.log('Create course');
@@ -84,21 +105,28 @@ export class CoursesService {
   public getItemById(id: Number): void {
     console.log(id);
   };
-  public updateItem(course: CourseObject): Observable<Boolean> {
+  public updateItem(course: CourseObject): void {
     let requestOptions = new RequestOptions();
     const date = new Date(course.date.split('/').reverse().join('/'));
     const formattedDate = date.toISOString().replace('.000Z', '+00:00');
     requestOptions.body = {...Object.assign({}, course, { date: formattedDate })};
-    return this.http.post(`${this.baseUrl}/courses/update`, requestOptions)
-      .map((response) => response.json())
-      .catch(AuthService.handleError);
+    this.http.post(`${this.baseUrl}/courses/update`, requestOptions)
+      .catch(AuthService.handleError)
+      .subscribe({
+        complete: () => {
+        this.store.dispatch(updateCourse());
+        this.router.navigate(['/courses']);
+      }});
   }
-  public removeItem(id: Number): Observable<Boolean> {
+  public removeItem(id: Number): void {
     let requestOptions = new RequestOptions();
     let body = { id };
     requestOptions.body = body;
-    return this.http.delete(`${this.baseUrl}/courses`, requestOptions)
+    this.http.delete(`${this.baseUrl}/courses`, requestOptions)
       .map((response) => response.json())
-      .catch(AuthService.handleError);
+      .catch(AuthService.handleError)
+      .subscribe(() => {
+        this.store.dispatch(deleteCourse());
+      });
   };
 }

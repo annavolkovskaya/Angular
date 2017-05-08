@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, RequestMethod, Headers, Request } from '@angular/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
+import { Store } from '@ngrx/store';
+import { State } from '../state/main.state';
+
+import { login, logout } from '../actions/auth.actions';
 interface UserInfo {
     id: Number;
     fakeToken: String;
@@ -27,22 +31,32 @@ export class AuthService {
     return Observable.throw(errMsg);
   }
 
-  public loggedIn = new BehaviorSubject(null);
+  public loggedIn: boolean;
   private userToken: string;
   private userInfo: UserInfo;
 
   private baseUrl: string;
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    public store: Store<State>
+    ) {
     this.baseUrl = 'http://localhost:3004';
 
     this.userToken = localStorage.getItem('userToken');
     if (this.userToken) {
       this.getUserInfo(this.userToken).subscribe({
         next: (userInfo) => this.userInfo = userInfo,
-        complete: () => this.loggedIn.next(this.userInfo.username)
+        complete: () => {
+          this.store.dispatch(login(this.userInfo.username));
+        }
       });
     }
+
+    this.store.select('combinedReducer', 'authStoreReducer')
+      .subscribe((state: State) => {
+         this.loggedIn = state.isLoggedIn;
+      });
   }
 
   public login (username: String, password: String): Observable<string> {
@@ -61,12 +75,12 @@ export class AuthService {
   }
 
   public logout(): void {
-      this.loggedIn.next(false);
+      this.store.dispatch(logout());
       localStorage.removeItem('userToken');
   };
 
   public isAuthenticated(): boolean {
-    return !!this.loggedIn.value;
+    return this.loggedIn;
   };
 
   public getUserInfo(token: string): Observable<UserInfo> {

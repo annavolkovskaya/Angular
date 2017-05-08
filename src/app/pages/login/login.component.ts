@@ -9,6 +9,10 @@ import { AuthService } from '../../services/auth.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { Router } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+import { State } from '../../state/main.state';
+
+import { login } from '../../actions/auth.actions';
 @Component ({
   styleUrls: ['./login.component.css'],
   templateUrl: './login.component.html',
@@ -25,14 +29,15 @@ export class LoginComponent {
     private authService: AuthService,
     private ref: ChangeDetectorRef,
     private spinnerService: SpinnerService,
-    private router: Router
+    private router: Router,
+    public store: Store<State>
   ) {
-    this.authService.loggedIn.subscribe((value) => {
-      this.loggedIn = !!value;
-      if (this.loggedIn) {
-        this.redirect();
-      }
-    });
+     this.store.select('combinedReducer', 'authStoreReducer')
+      .subscribe((state: State) => {
+         if (state.isLoggedIn) {
+           this.redirect();
+         }
+      });
   }
 
   public redirect() {
@@ -52,6 +57,7 @@ export class LoginComponent {
       .subscribe({
         next: (userData) => {
           localStorage.setItem('userToken', userData);
+          this.store.dispatch(login(this.username));
           this.ref.markForCheck();
           this.redirect();
         },
@@ -61,7 +67,6 @@ export class LoginComponent {
         },
         complete: () => {
           this.spinnerService.hide();
-          this.authService.loggedIn.next(this.username);
         }
       });
    }

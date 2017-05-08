@@ -6,8 +6,7 @@ import {
   ChangeDetectionStrategy,
   OnInit
 } from '@angular/core';
-import { CourseObject, EditCourse, DeleteCourse } from '../../../models/course.model';
-import { SpinnerService } from '../../../services/spinner.service';
+import { CourseObject } from '../../../models/course.model';
 
 @Component ({
   selector: 'course-component',
@@ -27,7 +26,6 @@ export class CourseComponent implements OnInit {
   public courseData: CourseObject;
   public isFavourite = false;
 
-  constructor(private spinnerService: SpinnerService) {}
   public deleteCourseCallback = (id) => {
     this.deleteCourse.emit(id);
   }
